@@ -880,9 +880,8 @@ p.footer-text a{color:#d7d8d8}
 </div>
 </div>
 <div class="paragraph text-center">
-<p><strong>September 2021</strong><br>
-<em>Vijay Krishnan, AWS PSA</em><br>
-<em>Troy Ameigh PSA, Intergration and Automation Team</em></p>
+<p><strong>August 2021</strong><br>
+<em>AWS Quick Start team</em></p>
 </div>
 <div class="admonitionblock tip text-left">
 <table>
@@ -1170,12 +1169,40 @@ deploy, and operate your infrastructure and applications on the AWS Cloud.</p>
 </table>
 </div>
 <div class="sect3">
-<h4 id="_supported_aws_regions">Supported AWS Regions</h4>
+<h4 id="_supported_regions">Supported Regions</h4>
 <div class="paragraph">
-<p>For any Quick Start to work in a Region other than its default Region, all the services it deploys must be supported in that Region. You can launch a Quick Start in any Region and see if it works. If you get an error such as “Unrecognized resource type,” the Quick Start is not supported in that Region.</p>
+<p>This Quick Start supports the following Regions:</p>
 </div>
-<div class="paragraph">
-<p>For an up-to-date list of AWS Regions and the AWS services they support, see <a href="https://aws.amazon.com/about-aws/global-infrastructure/regional-product-services/" target="_blank" rel="noopener">AWS Regional Services</a>.</p>
+<div class="ulist">
+<ul>
+<li>
+<p>us-east-1, US East (N. Virginia)</p>
+</li>
+<li>
+<p>us-east-2, US East (Ohio)</p>
+</li>
+<li>
+<p>us-west-2, US West (Oregon)</p>
+</li>
+<li>
+<p>eu-central-1, Europe (Frankfurt)</p>
+</li>
+<li>
+<p>eu-west-1, Europe (Ireland)</p>
+</li>
+<li>
+<p>eu-north-1, Europe (Stockholm)</p>
+</li>
+<li>
+<p>ap-southeast-1, Asia Pacific (Singapore)</p>
+</li>
+<li>
+<p>ap-southeast-2, Asia Pacific (Tokyo)</p>
+</li>
+<li>
+<p>ap-northeast-1, Asia Pacific (Tokyo)</p>
+</li>
+</ul>
 </div>
 <div class="admonitionblock tip">
 <table>
@@ -1308,7 +1335,7 @@ If you’re deploying Chainlink node into an existing VPC, make sure that your V
 <p>On the <strong>Specify stack details</strong> page, change the stack name if needed. Review the parameters for the template. Provide values for the parameters that require input. For all other parameters, review the default settings and customize them as necessary. For details on each parameter, see the <a href="#_parameter_reference">Parameter reference</a> section of this guide. When you finish reviewing and customizing the parameters, choose <strong>Next</strong>.</p>
 </li>
 <li>
-<p>On the <strong>Configure stack options</strong> page, you can <a href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-resource-tags.html" target="_blank" rel="noopener">specify tags</a> (key-value pairs) for resources in your stack and <a href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/cfn-console-add-tags.html" target="_blank" rel="noopener">set advanced options</a>. When you finish, choose <strong>Next</strong>.</p>
+<p>On the <strong>Configure stack options</strong> page, you can <a href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-resource-tags.html" target="_blank" rel="noopener">specify tags</a> (key-value pairs) for resources in your stack and <a href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/cfn-console-add-tags.html" target="_blank" rel="noopener">set advanced options</a>. When you’re finished, choose <strong>Next</strong>.</p>
 </li>
 <li>
 <p>On the <strong>Review</strong> page, review and confirm the template settings. Under <strong>Capabilities</strong>, select the two check boxes to acknowledge that the template creates IAM resources and might require the ability to automatically expand macros.</p>
@@ -1602,7 +1629,7 @@ Unless you are customizing the Quick Start templates for your own deployment pro
 <h2 id="_quick_start_reference_deployments">Quick Start reference deployments</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>See the <a href="https://aws.amazon.com/quickstart/" target="_blank" rel="noopener">AWS Quick Start home page</a>.</p>
+<p>See the <a href="https://aws.amazon.com/quickstart/">AWS Quick Start home page</a>.</p>
 </div>
 </div>
 </div>
@@ -1636,13 +1663,3 @@ and to share your customizations with others.</p>
 </p>
 </body>
 </html>
-<!--
-repo commit:
-d704309f46bfd3c3a9ef80e5367878b64a144565
-
-submodule config:
- 4ee94d6b60ec455e5b452e8ad9841eb825704b70 docs/boilerplate (heads/main)
- 9b20909f8a8139b84b149788d9124bf5a0321c62 submodules/quickstart-amazon-aurora-postgresql (v1.0-139-g9b20909)
- ffc7af4e59a09dbf52199a3ecf70f3805abeff48 submodules/quickstart-aws-vpc (v1.0-58-gffc7af4)
- 9aa7aedb1b35a28a1b0f7d8773319f75cce4b787 submodules/quickstart-linux-bastion (heads/main)
--->
