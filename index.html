@@ -861,7 +861,12 @@ p.footer-text a{color:#d7d8d8}
 <li><a href="#_security">Security</a></li>
 <li><a href="#_faq">FAQ</a></li>
 <li><a href="#_customer_responsibility">Customer responsibility</a></li>
-<li><a href="#_parameter_reference">Parameter reference</a></li>
+<li><a href="#_parameter_reference">Parameter reference</a>
+<ul class="sectlevel2">
+<li><a href="#_launch_into_a_new_vpc">Launch into a new VPC</a></li>
+<li><a href="#_launch_into_an_existing_vpc">Launch into an existing VPC</a></li>
+</ul>
+</li>
 <li><a href="#_send_us_feedback">Send us feedback</a></li>
 <li><a href="#_quick_start_reference_deployments">Quick Start reference deployments</a></li>
 <li><a href="#_github_repository">GitHub repository</a></li>
@@ -881,6 +886,7 @@ p.footer-text a{color:#d7d8d8}
 </div>
 <div class="paragraph text-center">
 <p><strong>September 2021</strong><br>
+<em>David Dang, Chainlink Labs</em><br>
 <em>Vijay Krishnan, AWS PSA</em><br>
 <em>Troy Ameigh PSA, Intergration and Automation Team</em></p>
 </div>
@@ -1188,6 +1194,15 @@ Certain Regions are available on an opt-in basis. For more information, see <a h
 </td>
 </tr>
 </table>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_amazon_ec2_key_pairs">Amazon EC2 key pairs</h4>
+<div class="paragraph">
+<p>Ensure that at least one Amazon EC2 key pair exists in your AWS account in the Region where you plan to deploy the Quick Start. Note the key-pair name because you will use it during deployment. To create a key pair, see <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-key-pairs.html" target="_blank" rel="noopener">Amazon EC2 key pairs and Linux instances</a>.</p>
+</div>
+<div class="paragraph">
+<p>For testing or proof-of-concept purposes, we recommend creating a new key pair instead of using one that’s already being used by a production instance.</p>
 </div>
 </div>
 <div class="sect3">
@@ -1588,6 +1603,748 @@ Unless you are customizing the Quick Start templates for your own deployment pro
 </tr>
 </table>
 </div>
+<div class="sect2">
+<h3 id="_launch_into_a_new_vpc">Launch into a new VPC</h3>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 1. Network configuration</caption>
+<colgroup>
+<col style="width: 16%;">
+<col style="width: 11%;">
+<col style="width: 73%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Parameter label (name)</th>
+<th class="tableblock halign-left valign-top">Default value</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Availability Zones
+(<code>AvailabilityZones</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code><strong><em>Requires input</em></strong></code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Select 2 Availability Zones to use for the subnets in the VPC.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">VPC CIDR
+(<code>VPCCIDR</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>10.0.0.0/16</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">CIDR Block for the VPC.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Private subnet 1 CIDR
+(<code>PrivateSubnet1CIDR</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>10.0.0.0/19</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">CIDR block for private subnet 1, located in Availability Zone 1.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Private subnet 2 CIDR
+(<code>PrivateSubnet2CIDR</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>10.0.32.0/19</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">CIDR block for private subnet 2, located in Availability Zone 2.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Public subnet 1 CIDR
+(<code>PublicSubnet1CIDR</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>10.0.128.0/20</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">CIDR Block for the public DMZ subnet 1, located in Availability Zone 1.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Public subnet 2 CIDR
+(<code>PublicSubnet2CIDR</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>10.0.144.0/20</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">CIDR Block for the public DMZ subnet 2, located in Availability Zone 2.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Allowed bastion external access CIDR
+(<code>RemoteAccessCIDR</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>0.0.0.0/0</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Allowed CIDR block for external SSH access to the bastions and Chainlink node UI</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">VPC tenancy
+(<code>VPCTenancy</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>default</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The allowed tenancy of instances launched into the VPC.</p></td>
+</tr>
+</tbody>
+</table>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 2. Amazon EC2 configuration</caption>
+<colgroup>
+<col style="width: 16%;">
+<col style="width: 11%;">
+<col style="width: 73%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Parameter label (name)</th>
+<th class="tableblock halign-left valign-top">Default value</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">SSH Key pair name
+(<code>KeyPairName</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code><strong><em>Requires input</em></strong></code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Name of an existing public/private key pair. If you do not have one in this AWS Region, please create it before continuing.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Bastion AMI operating system
+(<code>BastionAMIOS</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Amazon-Linux2-HVM</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The Linux distribution for the AMI to be used for the bastion instances.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>NO_LABEL</strong>
+(<code>BastionInstanceType</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>t2.micro</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Amazon EC2 instance type for the bastion instances.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Chainlink node instance type
+(<code>ChainlinkNodeInstanceType</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>t3.small</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Amazon EC2 instance type for the Chainlink node&#8217;s instances.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Chainlink node root volume size
+(<code>ChainlinkNodeRootVolumeSize</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>30</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The size in GB for the root EBS volume for Chainlink nodes.</p></td>
+</tr>
+</tbody>
+</table>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 3. Linux bastion configuration</caption>
+<colgroup>
+<col style="width: 16%;">
+<col style="width: 11%;">
+<col style="width: 73%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Parameter label (name)</th>
+<th class="tableblock halign-left valign-top">Default value</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Number of bastion hosts
+(<code>NumBastionHosts</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>1</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The number of bastion hosts to create. The maximum number is two.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Bastion host name
+(<code>BastionHostName</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>LinuxBastion</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The value used for the name tag of the bastion host.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Bastion tenancy
+(<code>BastionTenancy</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>default</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Bastion VPC tenancy (dedicated or default).</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Bastion banner
+(<code>EnableBanner</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>false</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Choose <strong>true</strong> to display a banner when connecting via SSH to the bastion.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Banner text
+(<code>BastionBanner</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code><strong><em>Blank string</em></strong></code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Banner text to display upon login.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">TCP forwarding
+(<code>EnableTCPForwarding</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>false</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">To enable TCP forwarding, choose <strong>true</strong>.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">X11 forwarding
+(<code>EnableX11Forwarding</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>false</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">To enable X11 forwarding, choose <strong>true</strong>.</p></td>
+</tr>
+</tbody>
+</table>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 4. Chainlink node configuration</caption>
+<colgroup>
+<col style="width: 16%;">
+<col style="width: 11%;">
+<col style="width: 73%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Parameter label (name)</th>
+<th class="tableblock halign-left valign-top">Default value</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Blockchain Network
+(<code>BlockchainNetwork</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Kovan-ETH-Testnet</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Blockchain Network to run Chainlink node.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Chainlink node GUI Email
+(<code>ChainlinkNodeGUIEmail</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>chainlinkuser@email.com</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The Chainlink node GUI Email.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Chainlink node GUI Password
+(<code>ChainlinkNodeGUIPassword</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code><strong><em>Requires input</em></strong></code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The Chainlink node GUI Password.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Blockchain node Websocket Url
+(<code>BlockchainNodeUrl</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>wss://blockchainNodeEndpoint</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Please provide websocket endpoint for a Blockchain node</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Chainlink node Wallet Password
+(<code>NodeWalletPassword</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code><strong><em>Requires input</em></strong></code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Node Wallet password must container 3 capital letters, 3 lowercase letters, 3 numbers, and 3 special characters.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">SSL certificate with AWS Certificate Manager
+(<code>UseSSLCertificate</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>true</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Use a public certificate created through AWS Certificate Manager (ACM).</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">SSL certificate ARN
+(<code>SSLCertificateARN</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>arn:aws:acm:region:account-id:certificate</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">ARN of the SSL Certificate created through AWS Certificate Manager.</p></td>
+</tr>
+</tbody>
+</table>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 5. Aurora PostreSQL configuration</caption>
+<colgroup>
+<col style="width: 16%;">
+<col style="width: 11%;">
+<col style="width: 73%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Parameter label (name)</th>
+<th class="tableblock halign-left valign-top">Default value</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Database name
+(<code>DBName</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>PostgresDB</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Name of the Amazon Aurora database.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Database auto minor version upgrade
+(<code>DBAutoMinorVersionUpgrade</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>false</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Select true to set up auto minor version upgrade.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Database backup retention period
+(<code>DBBackupRetentionPeriod</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>7</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The number of days for which automatic database snapshots are retained.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Database in Multi-AZ for high availability
+(<code>DBMultiAZ</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>true</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Specifies if the database instance is a multiple Availability Zone deployment.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Database engine version
+(<code>DBEngineVersion</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>11.9</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Select Database Engine Version</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Database instance class
+(<code>DBInstanceClass</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>db.t3.medium</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The name of the compute and memory capacity class of the database instance.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Database master username
+(<code>DBMasterUsername</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>postgresadmin</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The database admin account username.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Database master password
+(<code>DBMasterUserPassword</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code><strong><em>Requires input</em></strong></code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The database admin account password. Do not end the password with a special character, this wil cause issues connecting to database. Must contain at least 1 uppercase letter, 1 lowercase letter, and a symbol (non / @ " ' ).</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Database port
+(<code>DBPort</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>5432</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The port the instance will listen for connections on.</p></td>
+</tr>
+</tbody>
+</table>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 6. Amazon DevOps Guru</caption>
+<colgroup>
+<col style="width: 16%;">
+<col style="width: 11%;">
+<col style="width: 73%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Parameter label (name)</th>
+<th class="tableblock halign-left valign-top">Default value</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Amazon DevOps Guru
+(<code>EnableAmazonDevOpsGuru</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>true</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Enable Amazon DevOps Guru</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>NO_LABEL</strong>
+(<code>AdministratorAccountId</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>000000000000</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">AWS Account Id of the administrator account (the account in which StackSets will be created).</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>NO_LABEL</strong>
+(<code>EmailAddress</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>chainlinkuser@email.com</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Email address for Amazon DevOps Guru SNS subscription.</p></td>
+</tr>
+</tbody>
+</table>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 7. AWS Quick Start configuration</caption>
+<colgroup>
+<col style="width: 16%;">
+<col style="width: 11%;">
+<col style="width: 73%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Parameter label (name)</th>
+<th class="tableblock halign-left valign-top">Default value</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Quick Start S3 bucket name
+(<code>QSS3BucketName</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>aws-quickstart</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Name of the S3 bucket for your copy of the Quick Start assets. Keep the default name unless you are customizing the template. Changing the name updates code references to point to a new Quick Start location. This name can include numbers, lowercase letters, uppercase letters, and hyphens, but do not start or end with a hyphen (-). See <a href="https://aws-quickstart.github.io/option1.html" class="bare">https://aws-quickstart.github.io/option1.html</a>.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Quick Start S3 key prefix
+(<code>QSS3KeyPrefix</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>quickstart-chainlinklabs-chainlink-node/</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">S3 key prefix that is used to simulate a directory for your copy of the Quick Start assets. Keep the default prefix unless you are customizing the template. Changing this prefix updates code references to point to a new Quick Start location. This prefix can include numbers, lowercase letters, uppercase letters, hyphens (-), and forward slashes (/). End with a forward slash. See <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/UsingMetadata.html" class="bare">https://docs.aws.amazon.com/AmazonS3/latest/dev/UsingMetadata.html</a> and <a href="https://aws-quickstart.github.io/option1.html" class="bare">https://aws-quickstart.github.io/option1.html</a>.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Quick Start S3 bucket Region
+(<code>QSS3BucketRegion</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>us-east-1</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">AWS Region where the Quick Start S3 bucket (QSS3BucketName) is hosted. Keep the default Region unless you are customizing the template. Changing this Region updates code references to point to a new Quick Start location. When using your own bucket, specify the Region. See <a href="https://aws-quickstart.github.io/option1.html" class="bare">https://aws-quickstart.github.io/option1.html</a>.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect2">
+<h3 id="_launch_into_an_existing_vpc">Launch into an existing VPC</h3>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 8. Network configuration</caption>
+<colgroup>
+<col style="width: 16%;">
+<col style="width: 11%;">
+<col style="width: 73%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Parameter label (name)</th>
+<th class="tableblock halign-left valign-top">Default value</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Private Subnet 1 ID
+(<code>PrivateSubnet1ID</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code><strong><em>Requires input</em></strong></code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">ID of the private Subnet in Availability Zone 1</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Private Subnet 2 ID
+(<code>PrivateSubnet2ID</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code><strong><em>Requires input</em></strong></code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">ID of the private Subnet in Availability Zone 2</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Public Subnet 1 ID
+(<code>PublicSubnet1ID</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code><strong><em>Requires input</em></strong></code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">ID of the public Subnet in Availability Zone 1</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Public Subnet 2 ID
+(<code>PublicSubnet2ID</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code><strong><em>Requires input</em></strong></code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">ID of the public Subnet in Availability Zone 2</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Allowed bastion external access CIDR
+(<code>RemoteAccessCIDR</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>0.0.0.0/0</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Allowed CIDR block for external SSH access to the bastions and Chainlink node UI</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">VPC CIDR
+(<code>VPCCIDR</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>10.0.0.0/16</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">CIDR block for the VPC</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">VPC ID
+(<code>VPCID</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code><strong><em>Requires input</em></strong></code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">ID of the VPC (e.g., vpc-0343606e)</p></td>
+</tr>
+</tbody>
+</table>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 9. Amazon EC2 configuration</caption>
+<colgroup>
+<col style="width: 16%;">
+<col style="width: 11%;">
+<col style="width: 73%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Parameter label (name)</th>
+<th class="tableblock halign-left valign-top">Default value</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">SSH Key pair name
+(<code>KeyPairName</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code><strong><em>Requires input</em></strong></code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Name of an existing public/private key pair. If you do not have one in this AWS Region, please create it before continuing.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Bastion AMI operating system
+(<code>BastionAMIOS</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Amazon-Linux2-HVM</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The Linux distribution for the AMI to be used for the bastion instances.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>NO_LABEL</strong>
+(<code>BastionInstanceType</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>t2.micro</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Amazon EC2 instance type for the bastion instances.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Chainlink node instance type
+(<code>ChainlinkNodeInstanceType</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>t3.small</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Amazon EC2 instance type for the Chainlink node&#8217;s instances.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Chainlink node root volume size
+(<code>ChainlinkNodeRootVolumeSize</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>30</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The size in GB for the root EBS volume for Chainlink nodes.</p></td>
+</tr>
+</tbody>
+</table>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 10. Linux bastion configuration</caption>
+<colgroup>
+<col style="width: 16%;">
+<col style="width: 11%;">
+<col style="width: 73%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Parameter label (name)</th>
+<th class="tableblock halign-left valign-top">Default value</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Number of bastion hosts
+(<code>NumBastionHosts</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>1</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The number of bastion hosts to create. The maximum number is two.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Bastion host name
+(<code>BastionHostName</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>LinuxBastion</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The value used for the name tag of the bastion host.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Bastion tenancy
+(<code>BastionTenancy</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>default</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Bastion VPC tenancy (dedicated or default).</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Bastion banner
+(<code>EnableBanner</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>false</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Choose <strong>true</strong> to display a banner when connecting via SSH to the bastion.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Banner text
+(<code>BastionBanner</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code><strong><em>Blank string</em></strong></code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Banner text to display upon login.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">TCP forwarding
+(<code>EnableTCPForwarding</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>false</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">To enable TCP forwarding, choose <strong>true</strong>.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">X11 forwarding
+(<code>EnableX11Forwarding</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>false</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">To enable X11 forwarding, choose <strong>true</strong>.</p></td>
+</tr>
+</tbody>
+</table>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 11. Chainlink node configuration</caption>
+<colgroup>
+<col style="width: 16%;">
+<col style="width: 11%;">
+<col style="width: 73%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Parameter label (name)</th>
+<th class="tableblock halign-left valign-top">Default value</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Blockchain Network
+(<code>BlockchainNetwork</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Kovan-ETH-Testnet</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Blockchain Network to run Chainlink node.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Chainlink node GUI Email
+(<code>ChainlinkNodeGUIEmail</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>chainlinkuser@email.com</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The Chainlink node GUI Email.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Chainlink node GUI Password
+(<code>ChainlinkNodeGUIPassword</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code><strong><em>Requires input</em></strong></code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The Chainlink node GUI Password.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Blockchain node Websocket Url
+(<code>BlockchainNodeUrl</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>wss://blockchainNodeEndpoint</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Please provide websocket endpoint for a Blockchain node</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Chainlink node Wallet Password
+(<code>NodeWalletPassword</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code><strong><em>Requires input</em></strong></code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Node Wallet password must container 3 capital letters, 3 lowercase letters, 3 numbers, and 3 special characters.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">SSL certificate with AWS Certificate Manager
+(<code>UseSSLCertificate</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>true</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Use a public certificate created through AWS Certificate Manager (ACM).</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">SSL certificate ARN
+(<code>SSLCertificateARN</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>arn:aws:acm:region:account-id:certificate</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">ARN of the SSL Certificate created through AWS Certificate Manager.</p></td>
+</tr>
+</tbody>
+</table>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 12. Aurora PostreSQL configuration</caption>
+<colgroup>
+<col style="width: 16%;">
+<col style="width: 11%;">
+<col style="width: 73%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Parameter label (name)</th>
+<th class="tableblock halign-left valign-top">Default value</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Database name
+(<code>DBName</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>PostgresDB</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Name of the Amazon Aurora database.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Database auto minor version upgrade
+(<code>DBAutoMinorVersionUpgrade</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>false</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Select true to set up auto minor version upgrade.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Database backup retention period
+(<code>DBBackupRetentionPeriod</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>7</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The number of days for which automatic database snapshots are retained.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Database in Multi-AZ for high availability
+(<code>DBMultiAZ</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>true</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Specifies if the database instance is a multiple Availability Zone deployment.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Database engine version
+(<code>DBEngineVersion</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>11.9</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Select Database Engine Version</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>NO_LABEL</strong>
+(<code>DBInstanceClass</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>db.t3.medium</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The compute and memory capacity class of the database instance.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Database master username
+(<code>DBMasterUsername</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>postgresadmin</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The database admin account username.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Database master password
+(<code>DBMasterUserPassword</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code><strong><em>Requires input</em></strong></code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The database admin account password. Do not end the password with a special character, this wil cause issues connecting to database.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Database port
+(<code>DBPort</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>5432</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The port the instance will listen for connections on.</p></td>
+</tr>
+</tbody>
+</table>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 13. AWS DevOps Guru</caption>
+<colgroup>
+<col style="width: 16%;">
+<col style="width: 11%;">
+<col style="width: 73%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Parameter label (name)</th>
+<th class="tableblock halign-left valign-top">Default value</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Amazon DevOps Guru
+(<code>EnableAmazonDevOpsGuru</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>true</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Enable Amazon DevOps Guru</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>NO_LABEL</strong>
+(<code>AdministratorAccountId</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>000000000000</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">AWS Account Id of the administrator account (the account in which StackSets will be created).</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>NO_LABEL</strong>
+(<code>EmailAddress</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>chainlinkuser@email.com</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Email address for Amazon DevOps Guru SNS subscription.</p></td>
+</tr>
+</tbody>
+</table>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 14. AWS Quick Start configuration</caption>
+<colgroup>
+<col style="width: 16%;">
+<col style="width: 11%;">
+<col style="width: 73%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Parameter label (name)</th>
+<th class="tableblock halign-left valign-top">Default value</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Quick Start S3 bucket name
+(<code>QSS3BucketName</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>aws-quickstart</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Name of the S3 bucket for your copy of the Quick Start assets. Keep the default name unless you are customizing the template. Changing the name updates code references to point to a new Quick Start location. This name can include numbers, lowercase letters, uppercase letters, and hyphens, but do not start or end with a hyphen (-). See <a href="https://aws-quickstart.github.io/option1.html" class="bare">https://aws-quickstart.github.io/option1.html</a>.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Quick Start S3 key prefix
+(<code>QSS3KeyPrefix</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>quickstart-chainlink-node/</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">S3 key prefix that is used to simulate a directory for your copy of the Quick Start assets. Keep the default prefix unless you are customizing the template. Changing this prefix updates code references to point to a new Quick Start location. This prefix can include numbers, lowercase letters, uppercase letters, hyphens (-), and forward slashes (/). End with a forward slash. See <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/UsingMetadata.html" class="bare">https://docs.aws.amazon.com/AmazonS3/latest/dev/UsingMetadata.html</a> and <a href="https://aws-quickstart.github.io/option1.html" class="bare">https://aws-quickstart.github.io/option1.html</a>.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Quick Start S3 bucket Region
+(<code>QSS3BucketRegion</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>us-east-1</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">AWS Region where the Quick Start S3 bucket (QSS3BucketName) is hosted. Keep the default Region unless you are customizing the template. Changing this Region updates code references to point to a new Quick Start location. When using your own bucket, specify the Region. See <a href="https://aws-quickstart.github.io/option1.html" class="bare">https://aws-quickstart.github.io/option1.html</a>.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
 </div>
 </div>
 <div class="sect1">
@@ -1638,7 +2395,7 @@ and to share your customizations with others.</p>
 </html>
 <!--
 repo commit:
-fe83c0d62421b08985df3f8b14e05d25c2c826c8
+08867ad74d63649f437ec5a2fc31224c31f1b461
 
 submodule config:
  4ee94d6b60ec455e5b452e8ad9841eb825704b70 docs/boilerplate (remotes/origin/region_table_optin-3-g4ee94d6)

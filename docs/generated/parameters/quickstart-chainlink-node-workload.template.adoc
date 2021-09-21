@@ -1,0 +1,77 @@
+
+.Network configuration
+[width="100%",cols="16%,11%,73%",options="header",]
+|===
+|Parameter label (name) |Default value|Description|Private Subnet 1 ID
+(`PrivateSubnet1ID`)|`**__Requires input__**`|ID of the private Subnet in Availability Zone 1|Private Subnet 2 ID
+(`PrivateSubnet2ID`)|`**__Requires input__**`|ID of the private Subnet in Availability Zone 2|Public Subnet 1 ID
+(`PublicSubnet1ID`)|`**__Requires input__**`|ID of the public Subnet in Availability Zone 1|Public Subnet 2 ID
+(`PublicSubnet2ID`)|`**__Requires input__**`|ID of the public Subnet in Availability Zone 2|Allowed bastion external access CIDR
+(`RemoteAccessCIDR`)|`0.0.0.0/0`|Allowed CIDR block for external SSH access to the bastions and Chainlink node UI|VPC CIDR
+(`VPCCIDR`)|`10.0.0.0/16`|CIDR block for the VPC|VPC ID
+(`VPCID`)|`**__Requires input__**`|ID of the VPC (e.g., vpc-0343606e)
+|===
+.Amazon EC2 configuration
+[width="100%",cols="16%,11%,73%",options="header",]
+|===
+|Parameter label (name) |Default value|Description|SSH Key pair name
+(`KeyPairName`)|`**__Requires input__**`|Name of an existing public/private key pair. If you do not have one in this AWS Region, please create it before continuing.|Bastion AMI operating system
+(`BastionAMIOS`)|`Amazon-Linux2-HVM`|The Linux distribution for the AMI to be used for the bastion instances.|**NO_LABEL**
+(`BastionInstanceType`)|`t2.micro`|Amazon EC2 instance type for the bastion instances.|Chainlink node instance type
+(`ChainlinkNodeInstanceType`)|`t3.small`|Amazon EC2 instance type for the Chainlink node's instances.|Chainlink node root volume size
+(`ChainlinkNodeRootVolumeSize`)|`30`|The size in GB for the root EBS volume for Chainlink nodes.
+|===
+.Linux bastion configuration
+[width="100%",cols="16%,11%,73%",options="header",]
+|===
+|Parameter label (name) |Default value|Description|Number of bastion hosts
+(`NumBastionHosts`)|`1`|The number of bastion hosts to create. The maximum number is two.|Bastion host name
+(`BastionHostName`)|`LinuxBastion`|The value used for the name tag of the bastion host.|Bastion tenancy
+(`BastionTenancy`)|`default`|Bastion VPC tenancy (dedicated or default).|Bastion banner
+(`EnableBanner`)|`false`|Choose *true* to display a banner when connecting via SSH to the bastion.|Banner text
+(`BastionBanner`)|`**__Blank string__**`|Banner text to display upon login.|TCP forwarding
+(`EnableTCPForwarding`)|`false`|To enable TCP forwarding, choose *true*.|X11 forwarding
+(`EnableX11Forwarding`)|`false`|To enable X11 forwarding, choose *true*.
+|===
+.Chainlink node configuration
+[width="100%",cols="16%,11%,73%",options="header",]
+|===
+|Parameter label (name) |Default value|Description|Blockchain Network
+(`BlockchainNetwork`)|`Kovan-ETH-Testnet`|Blockchain Network to run Chainlink node.|Chainlink node GUI Email
+(`ChainlinkNodeGUIEmail`)|`chainlinkuser@email.com`|The Chainlink node GUI Email.|Chainlink node GUI Password
+(`ChainlinkNodeGUIPassword`)|`**__Requires input__**`|The Chainlink node GUI Password.|Blockchain node Websocket Url
+(`BlockchainNodeUrl`)|`wss://blockchainNodeEndpoint`|Please provide websocket endpoint for a Blockchain node|Chainlink node Wallet Password
+(`NodeWalletPassword`)|`**__Requires input__**`|Node Wallet password must container 3 capital letters, 3 lowercase letters, 3 numbers, and 3 special characters.|SSL certificate with AWS Certificate Manager
+(`UseSSLCertificate`)|`true`|Use a public certificate created through AWS Certificate Manager (ACM).|SSL certificate ARN
+(`SSLCertificateARN`)|`arn:aws:acm:region:account-id:certificate`|ARN of the SSL Certificate created through AWS Certificate Manager.
+|===
+.Aurora PostreSQL configuration
+[width="100%",cols="16%,11%,73%",options="header",]
+|===
+|Parameter label (name) |Default value|Description|Database name
+(`DBName`)|`PostgresDB`|Name of the Amazon Aurora database.|Database auto minor version upgrade
+(`DBAutoMinorVersionUpgrade`)|`false`|Select true to set up auto minor version upgrade.|Database backup retention period
+(`DBBackupRetentionPeriod`)|`7`|The number of days for which automatic database snapshots are retained.|Database in Multi-AZ for high availability
+(`DBMultiAZ`)|`true`|Specifies if the database instance is a multiple Availability Zone deployment.|Database engine version
+(`DBEngineVersion`)|`11.9`|Select Database Engine Version|**NO_LABEL**
+(`DBInstanceClass`)|`db.t3.medium`|The compute and memory capacity class of the database instance.|Database master username
+(`DBMasterUsername`)|`postgresadmin`|The database admin account username.|Database master password
+(`DBMasterUserPassword`)|`**__Requires input__**`|The database admin account password. Do not end the password with a special character, this wil cause issues connecting to database.|Database port
+(`DBPort`)|`5432`|The port the instance will listen for connections on.
+|===
+.AWS DevOps Guru
+[width="100%",cols="16%,11%,73%",options="header",]
+|===
+|Parameter label (name) |Default value|Description|Amazon DevOps Guru
+(`EnableAmazonDevOpsGuru`)|`true`|Enable Amazon DevOps Guru|**NO_LABEL**
+(`AdministratorAccountId`)|`000000000000`|AWS Account Id of the administrator account (the account in which StackSets will be created).|**NO_LABEL**
+(`EmailAddress`)|`chainlinkuser@email.com`|Email address for Amazon DevOps Guru SNS subscription.
+|===
+.AWS Quick Start configuration
+[width="100%",cols="16%,11%,73%",options="header",]
+|===
+|Parameter label (name) |Default value|Description|Quick Start S3 bucket name
+(`QSS3BucketName`)|`aws-quickstart`|Name of the S3 bucket for your copy of the Quick Start assets. Keep the default name unless you are customizing the template. Changing the name updates code references to point to a new Quick Start location. This name can include numbers, lowercase letters, uppercase letters, and hyphens, but do not start or end with a hyphen (-). See https://aws-quickstart.github.io/option1.html.|Quick Start S3 key prefix
+(`QSS3KeyPrefix`)|`quickstart-chainlink-node/`|S3 key prefix that is used to simulate a directory for your copy of the Quick Start assets. Keep the default prefix unless you are customizing the template. Changing this prefix updates code references to point to a new Quick Start location. This prefix can include numbers, lowercase letters, uppercase letters, hyphens (-), and forward slashes (/). End with a forward slash. See https://docs.aws.amazon.com/AmazonS3/latest/dev/UsingMetadata.html and https://aws-quickstart.github.io/option1.html.|Quick Start S3 bucket Region
+(`QSS3BucketRegion`)|`us-east-1`|AWS Region where the Quick Start S3 bucket (QSS3BucketName) is hosted. Keep the default Region unless you are customizing the template. Changing this Region updates code references to point to a new Quick Start location. When using your own bucket, specify the Region. See https://aws-quickstart.github.io/option1.html.
+|===
