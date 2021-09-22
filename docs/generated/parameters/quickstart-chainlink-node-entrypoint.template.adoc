@@ -4,19 +4,19 @@
 |===
 |Parameter label (name) |Default value|Description|Availability Zones
 (`AvailabilityZones`)|`**__Requires input__**`|Select 2 Availability Zones to use for the subnets in the VPC.|VPC CIDR
-(`VPCCIDR`)|`10.0.0.0/16`|CIDR Block for the VPC.|Private subnet 1 CIDR
+(`VPCCIDR`)|`10.0.0.0/16`|CIDR block for the VPC.|Private subnet 1 CIDR
 (`PrivateSubnet1CIDR`)|`10.0.0.0/19`|CIDR block for private subnet 1, located in Availability Zone 1.|Private subnet 2 CIDR
 (`PrivateSubnet2CIDR`)|`10.0.32.0/19`|CIDR block for private subnet 2, located in Availability Zone 2.|Public subnet 1 CIDR
-(`PublicSubnet1CIDR`)|`10.0.128.0/20`|CIDR Block for the public DMZ subnet 1, located in Availability Zone 1.|Public subnet 2 CIDR
-(`PublicSubnet2CIDR`)|`10.0.144.0/20`|CIDR Block for the public DMZ subnet 2, located in Availability Zone 2.|Allowed bastion external access CIDR
-(`RemoteAccessCIDR`)|`0.0.0.0/0`|Allowed CIDR block for external SSH access to the bastions and Chainlink node UI|VPC tenancy
+(`PublicSubnet1CIDR`)|`10.0.128.0/20`|CIDR block for the public DMZ subnet 1, located in Availability Zone 1.|Public subnet 2 CIDR
+(`PublicSubnet2CIDR`)|`10.0.144.0/20`|CIDR block for the public DMZ subnet 2, located in Availability Zone 2.|Allowed bastion external access CIDR
+(`RemoteAccessCIDR`)|`0.0.0.0/0`|Allowed CIDR block for external SSH access to the bastions and Chainlink node UI.|VPC tenancy
 (`VPCTenancy`)|`default`|The allowed tenancy of instances launched into the VPC.
 |===
 .Amazon EC2 configuration
 [width="100%",cols="16%,11%,73%",options="header",]
 |===
-|Parameter label (name) |Default value|Description|SSH Key pair name
-(`KeyPairName`)|`**__Requires input__**`|Name of an existing public/private key pair. If you do not have one in this AWS Region, please create it before continuing.|Bastion AMI operating system
+|Parameter label (name) |Default value|Description|SSH key pair name
+(`KeyPairName`)|`**__Requires input__**`|Name of an existing public/private key pair. If you do not have one in this AWS Region, create it before continuing.|Bastion AMI operating system
 (`BastionAMIOS`)|`Amazon-Linux2-HVM`|The Linux distribution for the AMI to be used for the bastion instances.|**NO_LABEL**
 (`BastionInstanceType`)|`t2.micro`|Amazon EC2 instance type for the bastion instances.|Chainlink node instance type
 (`ChainlinkNodeInstanceType`)|`t3.small`|Amazon EC2 instance type for the Chainlink node's instances.|Chainlink node root volume size
@@ -26,7 +26,7 @@
 [width="100%",cols="16%,11%,73%",options="header",]
 |===
 |Parameter label (name) |Default value|Description|Number of bastion hosts
-(`NumBastionHosts`)|`1`|The number of bastion hosts to create. The maximum number is two.|Bastion host name
+(`NumBastionHosts`)|`1`|The number of bastion hosts to create. The maximum number is two.|Bastion hostname
 (`BastionHostName`)|`LinuxBastion`|The value used for the name tag of the bastion host.|Bastion tenancy
 (`BastionTenancy`)|`default`|Bastion VPC tenancy (dedicated or default).|Bastion banner
 (`EnableBanner`)|`false`|Choose *true* to display a banner when connecting via SSH to the bastion.|Banner text
@@ -37,12 +37,12 @@
 .Chainlink node configuration
 [width="100%",cols="16%,11%,73%",options="header",]
 |===
-|Parameter label (name) |Default value|Description|Blockchain Network
-(`BlockchainNetwork`)|`Kovan-ETH-Testnet`|Blockchain Network to run Chainlink node.|Chainlink node GUI Email
-(`ChainlinkNodeGUIEmail`)|`chainlinkuser@email.com`|The Chainlink node GUI Email.|Chainlink node GUI Password
-(`ChainlinkNodeGUIPassword`)|`**__Requires input__**`|The Chainlink node GUI Password.|Blockchain node Websocket Url
-(`BlockchainNodeUrl`)|`wss://blockchainNodeEndpoint`|Please provide websocket endpoint for a Blockchain node|Chainlink node Wallet Password
-(`NodeWalletPassword`)|`**__Requires input__**`|Node Wallet password must container 3 capital letters, 3 lowercase letters, 3 numbers, and 3 special characters.|SSL certificate with AWS Certificate Manager
+|Parameter label (name) |Default value|Description|Blockchain network
+(`BlockchainNetwork`)|`Kovan-ETH-Testnet`|Blockchain network to run Chainlink node.|Chainlink node GUI email
+(`ChainlinkNodeGUIEmail`)|`chainlinkuser@email.com`|The Chainlink node GUI email.|Chainlink node GUI password
+(`ChainlinkNodeGUIPassword`)|`**__Requires input__**`|The Chainlink node GUI password.|Blockchain node web socket URL
+(`BlockchainNodeUrl`)|`wss://blockchainNodeEndpoint`|The web socket endpoint for a blockchain node.|Chainlink node wallet password
+(`NodeWalletPassword`)|`**__Requires input__**`|Node wallet password must contain 3 uppercase letters, 3 lowercase letters, 3 numbers, and 3 special characters.|SSL certificate with AWS Certificate Manager
 (`UseSSLCertificate`)|`true`|Use a public certificate created through AWS Certificate Manager (ACM).|SSL certificate ARN
 (`SSLCertificateARN`)|`arn:aws:acm:region:account-id:certificate`|ARN of the SSL Certificate created through AWS Certificate Manager.
 |===
@@ -52,21 +52,21 @@
 |Parameter label (name) |Default value|Description|Database name
 (`DBName`)|`PostgresDB`|Name of the Amazon Aurora database.|Database auto minor version upgrade
 (`DBAutoMinorVersionUpgrade`)|`false`|Select true to set up auto minor version upgrade.|Database backup retention period
-(`DBBackupRetentionPeriod`)|`7`|The number of days for which automatic database snapshots are retained.|Database in Multi-AZ for high availability
-(`DBMultiAZ`)|`true`|Specifies if the database instance is a multiple Availability Zone deployment.|Database engine version
-(`DBEngineVersion`)|`11.9`|Select Database Engine Version|Database instance class
-(`DBInstanceClass`)|`db.t3.medium`|The name of the compute and memory capacity class of the database instance.|Database master username
-(`DBMasterUsername`)|`postgresadmin`|The database admin account username.|Database master password
-(`DBMasterUserPassword`)|`**__Requires input__**`|The database admin account password. Do not end the password with a special character, this wil cause issues connecting to database. Must contain at least 1 uppercase letter, 1 lowercase letter, and a symbol (non / @ " ' ).|Database port
-(`DBPort`)|`5432`|The port the instance will listen for connections on.
+(`DBBackupRetentionPeriod`)|`7`|The number of days that automatic database snapshots are retained.|Database in Multi-AZ for high availability
+(`DBMultiAZ`)|`true`|Specify if the database instance is a multiple Availability Zone deployment.|Database engine version
+(`DBEngineVersion`)|`11.9`|The database engine version.|Database instance class
+(`DBInstanceClass`)|`db.t3.medium`|The name of the compute and memory capacity class of the database instance.|Database primary user name
+(`DBMasterUsername`)|`postgresadmin`|The database admin account user name.|Database primary password
+(`DBMasterUserPassword`)|`**__Requires input__**`|The database admin account password. To avoid connectivity issues, do not end the password with a special character. Must contain at least 1 uppercase letter, 1 lowercase letter, and a symbol (non / @ " ' ).|Database port
+(`DBPort`)|`5432`|The port on which the instance listens for connections.
 |===
 .Amazon DevOps Guru
 [width="100%",cols="16%,11%,73%",options="header",]
 |===
 |Parameter label (name) |Default value|Description|Amazon DevOps Guru
-(`EnableAmazonDevOpsGuru`)|`true`|Enable Amazon DevOps Guru|**NO_LABEL**
-(`AdministratorAccountId`)|`000000000000`|AWS Account Id of the administrator account (the account in which StackSets will be created).|**NO_LABEL**
-(`EmailAddress`)|`chainlinkuser@email.com`|Email address for Amazon DevOps Guru SNS subscription.
+(`EnableAmazonDevOpsGuru`)|`true`|Enable Amazon DevOps Guru.|**NO_LABEL**
+(`AdministratorAccountId`)|`000000000000`|AWS Account ID of the administrator account (the account in which StackSets are created).|**NO_LABEL**
+(`EmailAddress`)|`chainlinkuser@email.com`|Email address used for Amazon DevOps Guru SNS subscription.
 |===
 .AWS Quick Start configuration
 [width="100%",cols="16%,11%,73%",options="header",]
