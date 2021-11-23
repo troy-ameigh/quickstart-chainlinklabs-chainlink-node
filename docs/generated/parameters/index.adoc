@@ -1,6 +1,1 @@
-
-=== Parameters for launching into a new VPC
-include::quickstart-chainlink-node-entrypoint.template.adoc[]
-
-=== Parameters for launching into an existing VPC
-include::quickstart-chainlink-node-workload.template.adoc[]
+// placeholder
