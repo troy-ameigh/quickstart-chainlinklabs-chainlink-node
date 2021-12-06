@@ -1408,11 +1408,12 @@ cd /home/ec2-user/.chainlink &amp;&amp; docker run -d \
 --log-driver=awslogs \
 --log-opt awslogs-group=ChainlinkLogs \
 --restart unless-stopped \
+-u 1000:1000 \
 --name chainlink \
 -p 6688:6688 \
 -v /home/ec2-user/.chainlink:/chainlink \
 --env-file=/home/ec2-user/.chainlink/.env  smartcontract/chainlink:$latestimage local n \
--p /chainlink/.password
+-p /chainlink/.password \
 -a /chainlink/.api</pre>
 </div>
 </div>
@@ -1632,7 +1633,7 @@ and to share your customizations with others.</p>
 </html>
 <!--
 repo commit:
-f9932c40df29d6e11851b55b7bffb68abd372354
+915922c4adf822f91d827f6a246670f00d30ee57
 
 submodule config:
  4b446ee8ff99a231295d8e38ebff4bcb68325bd9 docs/boilerplate (heads/main)
